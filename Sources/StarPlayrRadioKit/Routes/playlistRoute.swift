@@ -38,10 +38,10 @@ func playlistRoute() -> httpReq {{ request in
                     playlist = list
                     
                     //MARK: fix key path
-                    playlist = playlist.replacingOccurrences(of: "key/1", with: "/key/1")
+                    playlist = playlist.replacingOccurrences(of: "key/1", with: "/api/v3/key")
                     
                     //MARK: add audio prefix
-                    playlist = playlist.replacingOccurrences(of: channelid, with: "/audio/" + channelid)
+                    playlist = playlist.replacingOccurrences(of: channelid, with: "/api/v3/aac/" + channelid)
                     
                     //MARK: fix duration
                     playlist = playlist.replacingOccurrences(of: "#EXT-X-TARGETDURATION:10", with: "#EXT-X-TARGETDURATION:9")

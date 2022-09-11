@@ -19,24 +19,18 @@ public func streamingServer() -> HttpServer {
     let server = HttpServer()
     
     //MARK: - ping is a text route
-    server.get["/ping"] = pingRoute(pong: "pong")
+    server.get ["/api/v3/ping"]           = pingRoute(pong: "pong")
+    server.get ["/api/v3/us"]             = regionRoute(region: "us")
+    server.get ["/api/v3/ca"]             = regionRoute(region: "ca")
+    server.post["/api/v3/login"]          = loginRoute()
+    server.post["/api/v3/session"]        = sessionRoute()
+    server.post["/api/v3/channels"]       = channelsRoute()
+    server.get ["/api/v3/pdt"]            = pdtRoute()
+    server.get ["/api/v3/key"]            = keyOneRoute()
+    server.get ["/api/v3/m3u/:channelid"] = playlistRoute()
+    server.get ["/api/v3/aac/:aac"]       = audioRoute(useBuffer: false)
     
-    //MARK: - US Route
-    server.get["/us"] = regionRoute(region: "us")
-    
-    //MARK: - CA Route
-    server.get["/ca"] = regionRoute(region: "ca")
-    
-    server.post["/api/v2/autologin"]   = loginRoute()
-    server.post["/api/v2/login"]       = loginRoute()
-    server.post["/api/v2/session"]     = sessionRoute()
-    server.post["/api/v2/channels"]    = channelsRoute()
-    server.get["/pdt"]                 = pdtRoute()
-    server.get["/key/1"]               = keyOneRoute()
-    server.get["/playlist/:channelid"] = playlistRoute()
-    server.get["/audio/:aac"]          = audioRoute(useBuffer: false)
-    
-    server.get["/routes"] = { request in
+    server.get ["/api/v3/routes"] = { request in
         print("")
         print(server.routes) //Keep this, prevents server from giving up.
         print("")
