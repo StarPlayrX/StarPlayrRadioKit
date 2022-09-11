@@ -18,7 +18,6 @@ public func startServer(_ port: UInt16) {
 public func streamingServer() -> HttpServer {
     let server = HttpServer()
     
-    //MARK: - ping is a text route
     server.get ["/api/v3/ping"]           = pingRoute(pong: "pong")
     server.get ["/api/v3/us"]             = regionRoute(region: "us")
     server.get ["/api/v3/ca"]             = regionRoute(region: "ca")
