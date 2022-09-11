@@ -49,7 +49,7 @@ public func streamingServer() -> HttpServer {
     server.get["/pdt"]                 = pdtRoute()
     server.get["/key/1"]               = keyOneRoute()
     server.get["/playlist/:channelid"] = playlistRoute()
-    server.get["/audio/:aac"]          = audioRoute(useBuffer: true)
+    server.get["/audio/:aac"]          = audioRoute(useBuffer: false)
     
     server.get["/routes"] = { request in
         print("")

@@ -25,6 +25,7 @@ func loginRoute() -> httpReq {{ request in
         let login = LoginX(username: user, pass: pass)
         
         PostSync(request: login.request, endpoint: login.endpoint, method: login.method) { result in
+            
             guard let result = result else { return }
             let returnData = processLogin(username: user, pass: pass, result: result)
             if returnData.success {
