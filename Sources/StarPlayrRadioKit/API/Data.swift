@@ -16,14 +16,15 @@ internal func dataSync(endpoint: String, method: String, DataHandler: @escaping 
 
     var urlReq = URLRequest(url: url)
     urlReq.httpMethod = "GET"
-    urlReq.timeoutInterval = TimeInterval(15)
+    urlReq.timeoutInterval = TimeInterval(5)
     urlReq.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
     
     let task = URLSession.shared.dataTask(with: urlReq ) { ( data, _, _ ) in
         
         guard
             let d = data
-            else { DataHandler(.none); return }
+        else { DataHandler(.none); return
+        }
         
         DataHandler(d)
         

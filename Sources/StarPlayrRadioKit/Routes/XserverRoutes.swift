@@ -18,29 +18,14 @@ public func startServer(_ port: UInt16) {
 public func streamingServer() -> HttpServer {
     let server = HttpServer()
     
-    server.get["/ping"] = { request in
-        return HttpResponse.ok(.text("pong"))
-    }
+    //MARK: - ping is a text route
+    server.get["/ping"] = pingRoute(pong: "pong")
     
     //MARK: - US Route
-    server.get["/us"] = { request in
-        
-        playerDomain = "player.siriusxm.com"
-        root = "\(playerDomain)/rest/v2/experience/modules"
-        appRegion = "US"
-        
-        return HttpResponse.ok(.text(appRegion))
-    }
+    server.get["/us"] = regionRoute(region: "us")
     
     //MARK: - CA Route
-    server.get["/ca"] = { request in
-        
-        playerDomain = "player.siriusxm.ca"
-        root = "\(playerDomain)/rest/v2/experience/modules"
-        appRegion = "CA"
-        
-        return HttpResponse.ok(.text(appRegion))
-    }
+    server.get["/ca"] = regionRoute(region: "ca")
     
     server.post["/api/v2/autologin"]   = loginRoute()
     server.post["/api/v2/login"]       = loginRoute()

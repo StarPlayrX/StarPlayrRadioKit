@@ -10,7 +10,7 @@ import SwifterLite
 
 func playlistRoute() -> httpReq {{ request in
     autoreleasepool {
-        var data = Data()
+        var playlist = String()
         
         guard
             let channelid = request.params[":channelid"]
@@ -27,16 +27,15 @@ func playlistRoute() -> httpReq {{ request in
             
             let source = Playlist(channelid: channelid)
             
-            TextSync(endpoint: source) { (playlist) in
+            TextSync(endpoint: source) { (list) in
                 guard
-                    let playlist = playlist
+                    let list = list
                 else {
-                    data = Data()
                     return
                 }
                 
-                func processPlaylist(_ playlist: String) -> String {
-                    var playlist = playlist
+                func processPlaylist(_ list: String) -> String {
+                    playlist = list
                     
                     //MARK: fix key path
                     playlist = playlist.replacingOccurrences(of: "key/1", with: "/key/1")
@@ -53,12 +52,12 @@ func playlistRoute() -> httpReq {{ request in
                     return playlist
                 }
 
-                data = processPlaylist(playlist).data(using: .utf8) ?? Data()
+                playlist = processPlaylist(list)
             }
         }
         
-        if data.count > 0 {
-            return HttpResponse.ok(.data(data, contentType: "application/x-mpegURL"))
+        if !playlist.isEmpty {
+            return HttpResponse.ok(.ping(playlist, contentType: "application/x-mpegURL"))
         } else {
             return HttpResponse.notFound(.none)
         }

@@ -7,7 +7,7 @@ internal func GetAsync(endpoint: String, DictionaryHandler: @escaping Dictionary
     
     var urlReq = URLRequest(url: url)
     urlReq.httpMethod = "GET"
-    urlReq.timeoutInterval = TimeInterval(15)
+    urlReq.timeoutInterval = TimeInterval(5)
     urlReq.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
     //urlReq.cachePolicy = .useProtocolCachePolicy
 

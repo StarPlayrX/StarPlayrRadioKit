@@ -13,7 +13,7 @@ func audioRoute(useBuffer: Bool) -> httpReq {{ request in
         guard
             let aac  = request.params[":aac"]
         else {
-            return HttpResponse.ok(.data(Data(), contentType: ""))
+            return HttpResponse.notFound(.none)
         }
         
         let endpoint = AudioX(data: aac, channelId: userX.channel )
@@ -29,6 +29,10 @@ func audioRoute(useBuffer: Bool) -> httpReq {{ request in
                 }
                 audio = data
             }
+        }
+        
+        if audio.isEmpty {
+            return HttpResponse.notFound(.none)
         }
         
         if useBuffer {

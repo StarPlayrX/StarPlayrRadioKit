@@ -61,6 +61,6 @@ func pdtRoute() -> httpReq {{ request in
         }
         runPDT()
          
-        return HttpResponse.ok(.json(obj))
+        return HttpResponse.ok(.json(obj, contentType: "application/json"))
     }
 }}

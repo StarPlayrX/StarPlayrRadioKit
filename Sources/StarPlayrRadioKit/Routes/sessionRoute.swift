@@ -23,6 +23,6 @@ func sessionRoute() -> httpReq {{ request in
         
         let obj = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]
         
-        return HttpResponse.ok(.json(obj))
+        return HttpResponse.ok(.json(obj, contentType: "application/json"))
     }
 }}

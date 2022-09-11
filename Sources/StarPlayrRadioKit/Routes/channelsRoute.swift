@@ -25,6 +25,7 @@ func channelsRoute() -> httpReq {{ request in
                 obj = ["data": [:], "message": "Login failure.", "success": false] as [String : Any]
             }
         }
-        return HttpResponse.ok(.json(obj))
+        return HttpResponse.ok(.json(obj, contentType: "application/json"))
     }
 }}
+
