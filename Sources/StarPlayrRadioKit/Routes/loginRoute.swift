@@ -26,11 +26,21 @@ func loginRoute() -> httpReq {{ request in
         
         PostSync(request: login.request, endpoint: login.endpoint, method: login.method) { result in
             
-            guard let result = result else { return }
+            guard
+                let result = result
+            else {
+                return
+            }
+            
             let returnData = processLogin(username: user, pass: pass, result: result)
+            
+            print(result)
+            
+            
             if returnData.success {
                 storeCookiesX()
             }
+            
             obj = ["data": returnData.data, "message": returnData.message, "success": returnData.success] as [String : Any]
         }
         return HttpResponse.ok(.json(obj))

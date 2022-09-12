@@ -15,6 +15,7 @@ func channelsRoute() -> httpReq {{ request in
         var obj = [String : Any]()
 
         PostSync(request: api.request, endpoint: api.endpoint, method: api.method) { (result) in
+        
             if let result = result {
                 let returnData = processChannels(result: result)
                 if returnData.success { storeCookiesX() }

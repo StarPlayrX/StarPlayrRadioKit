@@ -17,6 +17,9 @@ internal func processChannels(result: PostReturnTuple) -> (success: Bool, messag
     var success : Bool = false
     var message : String = "Something's not right."
     
+    print(result.response?.statusCode)
+    
+    
     if (result.response?.statusCode) == 403 {
         success = false
         message = "Too many incorrect logins, your Sat Radio provider has blocked your IP for 24 hours."
