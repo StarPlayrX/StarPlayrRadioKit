@@ -18,23 +18,19 @@ public func startServer(_ port: UInt16) {
 public func streamingServer() -> HttpServer {
     let server = HttpServer()
     
-    server.get ["/api/v3/ping"]           = pingRoute(pong: "pong")
-    server.get ["/api/v3/us"]             = regionRoute(region: "us")
-    server.get ["/api/v3/ca"]             = regionRoute(region: "ca")
-    server.post["/api/v3/login"]          = loginRoute()
-    server.post["/api/v3/session"]        = sessionRoute()
-    server.post["/api/v3/channels"]       = channelsRoute()
-    server.get ["/api/v3/pdt"]            = pdtRoute()
-    server.get ["/api/v3/key"]            = keyOneRoute()
-    server.get ["/api/v3/m3u/:channelid"] = playlistRoute()
-    server.get ["/api/v3/aac/:aac"]       = audioRoute(useBuffer: false)
-    
-    server.get ["/api/v3/routes"] = { request in
-        print("")
-        print(server.routes) //Keep this, prevents server from giving up.
-        print("")
-        return HttpResponse.notFound(.none) //don't return anything
+    autoreleasepool {
+        server.get ["/api/v3/ping"]           = pingRoute(pong: "pong")
+        server.get ["/api/v3/us"]             = regionRoute(region: "us")
+        server.get ["/api/v3/ca"]             = regionRoute(region: "ca")
+        server.post["/api/v3/login"]          = loginRoute()
+        server.post["/api/v3/session"]        = sessionRoute()
+        server.post["/api/v3/channels"]       = channelsRoute()
+        server.get ["/api/v3/pdt"]            = pdtRoute()
+        server.get ["/api/v3/key"]            = keyOneRoute()
+        server.get ["/api/v3/m3u/:channelid"] = playlistRoute()
+        server.get ["/api/v3/aac/:aac"]       = audioRoute(useBuffer: false)
+        server.get ["/api/v3/routes"]         = checkRoute(server: server)
     }
-    
+
     return server
 }
