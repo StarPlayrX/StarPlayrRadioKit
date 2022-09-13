@@ -10,7 +10,7 @@ import SwifterLite
 
 public func startServer(_ port: UInt16) {
     let server = streamingServer()
-    try? server.start(port, forceIPv4: true)
+    try? server.start(port)
     print("Server has started on port \(port)")
 }
 
