@@ -44,7 +44,7 @@ func playlistRoute() -> httpReq {{ request in
                     playlist = playlist.replacingOccurrences(of: channelid, with: "/api/v3/aac/" + channelid)
                     
                     //MARK: fix duration
-                    playlist = playlist.replacingOccurrences(of: "#EXT-X-TARGETDURATION:10", with: "#EXT-X-TARGETDURATION:9")
+                    //playlist = playlist.replacingOccurrences(of: "#EXT-X-TARGETDURATION:10", with: "#EXT-X-TARGETDURATION:9")
                     
                     //MARK: this keeps the PDT in sync, go figure
                     playlist = playlist.replacingOccurrences(of: "#EXTINF:10,", with: "#EXTINF:1,")

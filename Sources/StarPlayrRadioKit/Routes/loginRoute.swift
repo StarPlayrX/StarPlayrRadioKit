@@ -34,9 +34,6 @@ func loginRoute() -> httpReq {{ request in
             
             let returnData = processLogin(username: user, pass: pass, result: result)
             
-            print(result)
-            
-            
             if returnData.success {
                 storeCookiesX()
             }

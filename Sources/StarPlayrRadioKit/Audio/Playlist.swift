@@ -9,8 +9,9 @@ import Foundation
 
 //Cached verison of Playlist
 func Playlist(channelid: String) -> String {
-    let bitrate = "256k"
-    let size = "small"
+    let bitrate = Network.ability.networkIsCellular ? "64k" : "256k"
+    
+    let size = "large"
     let underscore = "_"
     let version = "v3"
     let ext = ".m3u8"

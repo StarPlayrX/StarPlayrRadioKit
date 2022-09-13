@@ -10,8 +10,9 @@ import SwifterLite
 
 func audioRoute(useBuffer: Bool) -> httpReq {{ request in
     autoreleasepool {
+        
         guard
-            let aac  = request.params[":aac"]
+            let aac = request.params[":aac"]
         else {
             return HttpResponse.notFound(.none)
         }

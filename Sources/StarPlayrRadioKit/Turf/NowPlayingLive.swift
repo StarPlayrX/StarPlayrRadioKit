@@ -56,7 +56,7 @@ internal func processNPL(data: NowPlayingLiveStruct) {
                 let cut = i.cut
                 
                 if let artist = cut?.artists.first?.name, let song = cut?.title, let art = cut?.album?.creativeArts {
-                    
+
                     for albumart in art.reversed() where albumart.relativeURL.contains("_m.") {
                        
                         guard
@@ -66,7 +66,6 @@ internal func processNPL(data: NowPlayingLiveStruct) {
                         }
                         
                         MemBase[key] = albumart.relativeURL.replacingOccurrences(of: "%Album_Art%", with: "http://albumart.siriusxm.com")
-                        break
                     }
                 }
             }

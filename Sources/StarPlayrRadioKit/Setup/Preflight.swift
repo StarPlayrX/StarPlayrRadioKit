@@ -13,6 +13,8 @@ public func preflightConfig(location: String = "US") {
     appRegion = location
     
     Config()
+   
+    Network.ability.start()
     
     let logindata = (email:"", pass:"", channels: [:], ids: [:], channel: "", token: "", loggedin: false, gupid: "", consumer: "", key: "", keyurl: "" ) as LoginData
     
