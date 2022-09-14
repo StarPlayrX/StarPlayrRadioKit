@@ -45,7 +45,7 @@ func audioRoute(useBuffer: Bool) -> httpReq {{ request in
                 
                 stream.open()
                 while case let amount = stream.read(&buf, maxLength: bufferSize), amount > 0 {
-                    try writer.write(bytes: [UInt8](buf[..<amount]))
+                    try writer.write(byts: [UInt8](buf[..<amount]))
                 }
                 stream.close()
             })
