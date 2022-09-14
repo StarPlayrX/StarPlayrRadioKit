@@ -15,7 +15,7 @@ let package = Package(
             targets: ["StarPlayrRadioKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/StarPlayrX/Swifter-Lite", branch: "1.5.1")
+        .package(url: "https://github.com/StarPlayrX/Swifter-Lite", branch: "1.5.2")
     ],
     targets: [
         .target(
