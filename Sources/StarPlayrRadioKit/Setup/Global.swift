@@ -8,7 +8,6 @@ public var root: String = "player.siriusxm.com/rest/v2/experience/modules"
 public var playerDomain = "player.siriusxm.com"
 public var appRegion = "US"
 
-
 public var hls_sources = Dictionary<String, String>()
 
 internal var MemBase = Dictionary<String?, String?>()

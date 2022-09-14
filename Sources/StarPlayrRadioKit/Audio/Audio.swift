@@ -11,7 +11,7 @@ func AudioX(data: String, channelId: String) -> String {
             
     let rootUrl = "/AAC_Data/\(channelId)/HLS_\(channelId)_\(bitrate)_v3/"
     let hls: String
-    
+        
     usePrime ? (hls = hls_prime) : (hls = hls_second)
     
     let prefix = "\(hls)\(rootUrl)"

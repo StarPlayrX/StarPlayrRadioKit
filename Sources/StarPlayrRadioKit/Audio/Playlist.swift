@@ -10,8 +10,8 @@ import Foundation
 //Cached verison of Playlist
 func Playlist(channelid: String) -> String {
     let bitrate = Network.ability.networkIsCellular ? "64k" : "256k"
-    
-    let size = "large"
+
+    let size = "medium"
     let underscore = "_"
     let version = "v3"
     let ext = ".m3u8"
@@ -31,6 +31,6 @@ func Playlist(channelid: String) -> String {
     source = source.replacingOccurrences(of: "32k",  with: bitrate)
     source = source.replacingOccurrences(of: "key/1", with: tail)
     source += userX.consumer + "&token=" + userX.token
-        
+    
 	return source
 }
