@@ -10,8 +10,15 @@ import SwifterLite
 
 public func startServer(_ port: UInt16) {
     let server = streamingServer()
+    server.stop()
     try? server.start(port)
     print("Server has started on port \(port)")
+}
+
+public func stopServer() {
+    let server = streamingServer()
+    server.stop()
+    print("Server has stopped as requested")
 }
 
 //MARK: Swifter Embedded Web Server Routes
