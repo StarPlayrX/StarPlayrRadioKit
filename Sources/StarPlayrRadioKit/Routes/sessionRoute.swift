@@ -17,8 +17,8 @@ func sessionRoute() -> httpReq {{ request in
         else {
             return HttpResponse.notFound(.none)
         }
-        
-        let returnData = Session(channelid: channelid)
+
+        let returnData = Session(channelid: channelid, updateToken: true, updateUser: true)
         if !returnData.isEmpty { storeCookiesX() }
         
         let obj = ["data": returnData, "message": "coolbeans", "success": true] as [String : Any]

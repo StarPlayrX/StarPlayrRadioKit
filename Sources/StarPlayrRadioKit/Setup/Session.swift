@@ -8,7 +8,7 @@
 import Foundation
 
 @discardableResult
-internal func Session(channelid: String) -> String {
+internal func Session(channelid: String, updateToken: Bool, updateUser: Bool) -> String {
     var channelLineUpId = "350" //default to large channel and image set
 
     let timeInterval = NSDate().timeIntervalSince1970
@@ -58,6 +58,7 @@ internal func Session(channelid: String) -> String {
             if r.statusCode == 200 {
                 do { let result =
                     try JSONSerialization.jsonObject(with: d, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : Any]
+                    
                     let getCookies = { () -> [HTTPCookie] in
                         
                     	 if let fields = r.allHeaderFields as? [String : String], let url = r.url {
@@ -68,55 +69,59 @@ internal func Session(channelid: String) -> String {
                         
                         return [HTTPCookie()]
                     }
-                   
-                    let cookies = getCookies()
                     
-                    for cookie in cookies {
-                        //This token changes on every pull and expires in about 480 seconds or less
-                        if cookie.name == "SXMAKTOKEN" {
-                            let t = cookie.value as String
-                            if t.count > 44 {
-                                let startIndex = t.index(t.startIndex, offsetBy: 3)
-                                let endIndex = t.index(t.startIndex, offsetBy: 45)
-                                userX.token = String(t[startIndex...endIndex])
-                                break
+                    if updateToken {
+                        let cookies = getCookies()
+
+                        for cookie in cookies {
+                            //This token changes on every pull and expires in about 480 seconds or less
+                            if cookie.name == "SXMAKTOKEN" {
+                                let t = cookie.value as String
+                                if t.count > 44 {
+                                    let startIndex = t.index(t.startIndex, offsetBy: 3)
+                                    let endIndex = t.index(t.startIndex, offsetBy: 45)
+                                    
+                                    userX.token = String(t[startIndex...endIndex])
+                                    
+                                    UserDefaults.standard.set(userX.token, forKey: "token")
+                                    
+                                    break
+                                }
                             }
-                           
                         }
                     }
-                    
-                    let dict = result as NSDictionary?
-                    /* get patterns and encrpytion keys */
-                    let s = dict?.value( forKeyPath: "ModuleListResponse.moduleList.modules" )
-                    let p = s as? NSArray
-                    let x = p?.firstObject as? NSDictionary
-                    
-                    //New return the channel lineup Id
-                    if let cid = x?.value( forKeyPath: "clientConfiguration.channelLineupId" ) as? String {
-                        channelLineUpId = String(cid)
+                   
+                    if updateUser {
+                        let dict = result as NSDictionary?
+                        /* get patterns and encrpytion keys */
+                        let s = dict?.value( forKeyPath: "ModuleListResponse.moduleList.modules" )
+                        let p = s as? NSArray
+                        let x = p?.firstObject as? NSDictionary
+                        
+                        //New return the channel lineup Id
+                        if let cid = x?.value( forKeyPath: "clientConfiguration.channelLineupId" ) as? String {
+                            channelLineUpId = String(cid)
+                        }
+                        
+                        if let customAudioInfos = x?.value( forKeyPath: "moduleResponse.liveChannelData.customAudioInfos" ) as? NSArray,
+                           let c = customAudioInfos[0] as? NSDictionary,
+                           let chunk = c.value( forKeyPath: "chunks.chunks") as? NSArray,
+                           let d = chunk[0] as? NSDictionary,
+                           let key = d.value( forKeyPath: "key") as? String,
+                           let keyurl = d.value( forKeyPath: "keyUrl") as? String,
+                           let consumer = x?.value( forKeyPath: "moduleResponse.liveChannelData.hlsConsumptionInfo" ) as? String {
+                           
+                            userX.key = key
+                            userX.keyurl = keyurl
+                            userX.consumer = consumer
+                        
+                            UserDefaults.standard.set(userX.key, forKey: "key")
+                            UserDefaults.standard.set(userX.keyurl, forKey: "keyurl")
+                            UserDefaults.standard.set(userX.consumer, forKey: "consumer")
+                        }
                     }
-                    
-                    if let customAudioInfos = x?.value( forKeyPath: "moduleResponse.liveChannelData.customAudioInfos" ) as? NSArray,
-                       let c = customAudioInfos[0] as? NSDictionary,
-                       let chunk = c.value( forKeyPath: "chunks.chunks") as? NSArray,
-                       let d = chunk[0] as? NSDictionary,
-                       let key = d.value( forKeyPath: "key") as? String,
-                       let keyurl = d.value( forKeyPath: "keyUrl") as? String,
-                       let consumer = x?.value( forKeyPath: "moduleResponse.liveChannelData.hlsConsumptionInfo" ) as? String {
-                       
-                        userX.key = key
-                        userX.keyurl = keyurl
-                        userX.consumer = consumer
-                    
-                        UserDefaults.standard.set(userX.key, forKey: "key")
-                        UserDefaults.standard.set(userX.keyurl, forKey: "keyurl")
-                        UserDefaults.standard.set(userX.consumer, forKey: "consumer")
-                    }
-                    
                 } catch {
-                    //fail on any errors
-                    print("4")
-                    print(error)
+                    print("Session:", error)
                 }
             }
         }
@@ -127,8 +132,6 @@ internal func Session(channelid: String) -> String {
     
     task.resume()
     _ = semaphore.wait(timeout: .distantFuture)
-    
-    UserDefaults.standard.set(userX.token, forKey: "token")
-    
+        
     return String(channelLineUpId)
 }

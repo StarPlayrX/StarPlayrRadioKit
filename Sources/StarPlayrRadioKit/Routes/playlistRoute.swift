@@ -35,7 +35,7 @@ func playlistRoute() -> httpReq {{ request in
             
             // Ignition
             if lastChannelId != channelid {
-                Session(channelid: channelid)
+                Session(channelid: channelid, updateToken: true, updateUser: true)
                 lastChannelId = channelid
                 lastIgnition = currentTimeInMiliseconds()
             }
@@ -43,7 +43,7 @@ func playlistRoute() -> httpReq {{ request in
             // Refresh token every 480 seconds
             if (currentTimeInMiliseconds() - lastIgnition) >= 480000 {
                 DispatchQueue.main.async {
-                    Session(channelid: channelid)
+                    Session(channelid: channelid, updateToken: true, updateUser: false)
                 }
                 lastIgnition = currentTimeInMiliseconds()
             }
