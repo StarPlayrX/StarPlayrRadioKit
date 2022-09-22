@@ -8,8 +8,14 @@
 import Foundation
 import SwifterLite
 
-var lastChannel = ""
-var toggler = false
+var lastChannelId: String = ""
+var lastIgnition : Int    = 0
+
+func currentTimeInMiliseconds() -> Int {
+    let currentDate = Date()
+    let since1970 = currentDate.timeIntervalSince1970
+    return Int(since1970 * 1000)
+}
 
 func playlistRoute() -> httpReq {{ request in
     autoreleasepool {
@@ -27,20 +33,20 @@ func playlistRoute() -> httpReq {{ request in
             
             userX.channel = channelid
             
-            if lastChannel != channelid {
+            // Ignition
+            if lastChannelId != channelid {
                 Session(channelid: channelid)
-                lastChannel == channelid
-            } else {
-                toggler.toggle()
-                if toggler {
-                    DispatchQueue.main.async {
-                        Session(channelid: channelid)
-                    }
+                lastChannelId = channelid
+                lastIgnition = currentTimeInMiliseconds()
+            }
+                          
+            // Refresh token every 480 seconds
+            if (currentTimeInMiliseconds() - lastIgnition) >= 480000 {
+                // refreshes session and stream token
+                DispatchQueue.main.async {
+                    Session(channelid: channelid)
                 }
             }
-            
-            //Do not block main thread
-
             
             let source = Playlist(channelid: channelid)
             
@@ -61,7 +67,7 @@ func playlistRoute() -> httpReq {{ request in
                     playlist = playlist.replacingOccurrences(of: channelid, with: "/api/v3/aac/" + channelid)
                     
                     //MARK: fix duration
-                    //playlist = playlist.replacingOccurrences(of: "#EXT-X-TARGETDURATION:10", with: "#EXT-X-TARGETDURATION:9")
+                    playlist = playlist.replacingOccurrences(of: "#EXT-X-TARGETDURATION:10", with: "#EXT-X-TARGETDURATION:9")
                     
                     //MARK: this keeps the PDT in sync, go figure
                     playlist = playlist.replacingOccurrences(of: "#EXTINF:10,", with: "#EXTINF:1,")

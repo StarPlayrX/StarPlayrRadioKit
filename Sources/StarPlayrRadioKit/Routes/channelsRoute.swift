@@ -10,7 +10,7 @@ import SwifterLite
 
 func channelsRoute() -> httpReq {{ request in
     autoreleasepool {
-        Session(channelid: "siriushits1")
+        //Session(channelid: "siriushits1")
         let api = Channels()
         var obj = [String : Any]()
 
