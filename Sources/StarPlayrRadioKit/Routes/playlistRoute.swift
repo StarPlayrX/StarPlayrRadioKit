@@ -8,6 +8,8 @@
 import Foundation
 import SwifterLite
 
+var toggler = false
+
 func playlistRoute() -> httpReq {{ request in
     autoreleasepool {
         var playlist = String()
@@ -23,7 +25,15 @@ func playlistRoute() -> httpReq {{ request in
            let channelid = ch["channelId"] as? String {
             
             userX.channel = channelid
-            Session(channelid: channelid)
+            
+            
+            toggler.toggle()
+            //Do not block main thread
+            if toggler {
+                DispatchQueue.global().async {
+                    Session(channelid: channelid)
+                }
+            }
             
             let source = Playlist(channelid: channelid)
             
