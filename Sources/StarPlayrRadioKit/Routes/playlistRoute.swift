@@ -42,10 +42,10 @@ func playlistRoute() -> httpReq {{ request in
                           
             // Refresh token every 480 seconds
             if (currentTimeInMiliseconds() - lastIgnition) >= 480000 {
-                // refreshes session and stream token
                 DispatchQueue.main.async {
                     Session(channelid: channelid)
                 }
+                lastIgnition = currentTimeInMiliseconds()
             }
             
             let source = Playlist(channelid: channelid)
