@@ -8,6 +8,7 @@
 import Foundation
 import SwifterLite
 
+var lastChannel = ""
 var toggler = false
 
 func playlistRoute() -> httpReq {{ request in
@@ -26,14 +27,20 @@ func playlistRoute() -> httpReq {{ request in
             
             userX.channel = channelid
             
-            
-            toggler.toggle()
-            //Do not block main thread
-            if toggler {
-                DispatchQueue.global().async {
-                    Session(channelid: channelid)
+            if lastChannel != channelid {
+                Session(channelid: channelid)
+                lastChannel == channelid
+            } else {
+                toggler.toggle()
+                if toggler {
+                    DispatchQueue.main.async {
+                        Session(channelid: channelid)
+                    }
                 }
             }
+            
+            //Do not block main thread
+
             
             let source = Playlist(channelid: channelid)
             
