@@ -15,12 +15,12 @@ let package = Package(
             targets: ["StarPlayrRadioKit"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/StarPlayrX/Swifter-Lite", branch: "mustang")
+        .package(url: "https://github.com/StarPlayrX/SwifterLite", branch: "mustang")
     ],
     targets: [
         .target(
             name: "StarPlayrRadioKit",
-            dependencies: [.product(name: "SwifterLite", package: "Swifter-Lite")]
+            dependencies: [.product(name: "SwifterLite", package: "SwifterLite")]
         ),
     ]
 )
