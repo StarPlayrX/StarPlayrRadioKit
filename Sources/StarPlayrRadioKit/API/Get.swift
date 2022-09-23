@@ -7,7 +7,7 @@ internal func GetAsync(endpoint: String, DictionaryHandler: @escaping Dictionary
     
     var urlReq = URLRequest(url: url)
     urlReq.httpMethod = "GET"
-    urlReq.timeoutInterval = TimeInterval(3)
+    urlReq.timeoutInterval = TimeInterval(60)
     urlReq.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
     //urlReq.cachePolicy = .useProtocolCachePolicy
 
@@ -33,7 +33,7 @@ internal func GetPdtSync(endpoint: String, method: String, PdtHandler: @escaping
     
     var urlReq = URLRequest(url: url)
     urlReq.httpMethod = "GET"
-    urlReq.timeoutInterval = TimeInterval(3)
+    urlReq.timeoutInterval = TimeInterval(60)
     
     let task = URLSession.shared.dataTask(with: urlReq ) { ( data, response, error ) in
 
