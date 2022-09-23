@@ -89,6 +89,7 @@ internal func processChannels(result: PostReturnTuple) -> (success: Bool, messag
                         let chNumber = Int(channelNumber)
                         
                         switch chNumber {
+                            
                         case 20,18,19,22,23,24,29,30,31,32,38,42,75,104,105,176,333,504,505,700,709,711,717,721:
                             category = "Artists"
                             
