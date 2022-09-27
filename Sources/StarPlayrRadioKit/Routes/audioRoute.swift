@@ -8,7 +8,7 @@
 import Foundation
 import SwifterLite
 
-func audioRoute(useBuffer: Bool) -> httpReq {{ request in
+func audioRoute() -> httpReq {{ request in
     autoreleasepool {
         
         guard
@@ -36,21 +36,6 @@ func audioRoute(useBuffer: Bool) -> httpReq {{ request in
             return HttpResponse.notFound(.none)
         }
         
-        if useBuffer {
-            let contentType = ["Content-Type": audioFormat]
-            return HttpResponse.raw(200, "OK", contentType, { writer in
-                let bufferSize = 1024
-                let stream = InputStream(data: audio)
-                var buf = [UInt8](repeating: 0, count: bufferSize)
-                
-                stream.open()
-                while case let amount = stream.read(&buf, maxLength: bufferSize), amount > 0 {
-                    try writer.write(byts: [UInt8](buf[..<amount]))
-                }
-                stream.close()
-            })
-        } else {
-            return HttpResponse.ok(.data(audio, contentType: audioFormat))
-        }
+        return HttpResponse.ok(.data(audio, contentType: audioFormat))
     }
 }}

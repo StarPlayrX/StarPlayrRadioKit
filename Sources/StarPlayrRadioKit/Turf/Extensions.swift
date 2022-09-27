@@ -33,14 +33,3 @@ extension Date {
         }
     }
 }
-
-//maybe shorten this down sometime
-/*func generateJSON(data: Data) {
-    
-    let bytes: Data = data
-    
-    if  let string = String(data: bytes, encoding: .utf8),
-        let str = string.data(using: .utf8)?.prettyPrintedJSONString {
-        debugPrint(str)
-    }
-}*/

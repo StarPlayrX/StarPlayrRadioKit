@@ -28,7 +28,7 @@ public func streamingServer() -> HttpServer {
         server.get ["/api/v3/pdt"]            = pdtRoute()
         server.get ["/api/v3/key"]            = keyOneRoute()
         server.get ["/api/v3/m3u/:channelid"] = playlistRoute()
-        server.get ["/api/v3/aac/:aac"]       = audioRoute(useBuffer: false)
+        server.get ["/api/v3/aac/:aac"]       = audioRoute()
         server.get ["/api/v3/routes"]         = checkRoute(server: server)
     }
 
