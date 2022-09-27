@@ -8,7 +8,9 @@
 import Foundation
 import SwifterLite
 
-func pingRoute(pong: String) -> httpReq {{ request in
-    resetChTknId = pong //this will reset the strean's token id
-    HttpResponse.ok(.ping(pong, contentType: "text/plain"))
+func pingRoute(pong: String) -> httpReq {{ request in    
+    // reset the stream's token id
+    resetChTknId = pong
+    
+    return HttpResponse.ok(.ping(pong, contentType: "text/plain"))
 }}

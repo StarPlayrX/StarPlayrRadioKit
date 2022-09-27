@@ -33,7 +33,10 @@ func playlistRoute() -> httpReq {{ request in
             
             userX.channel = channelid
             
-            // Ignition
+            print(resetChTknId)
+            
+            
+            // Reset token if we have a new channel or we paused over 8 minutes
             if resetChTknId != channelid {
                 Session(channelid: channelid, updateToken: true, updateUser: true)
                 resetChTknId = channelid
