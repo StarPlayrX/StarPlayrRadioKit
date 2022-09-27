@@ -8,8 +8,8 @@
 import Foundation
 import SwifterLite
 
-var lastChannelId: String = ""
-var lastIgnition : Int    = 0
+var resetChTknId : String = ""
+var tokenExpires : Int    = 0
 
 func currentTimeInMiliseconds() -> Int {
     let currentDate = Date()
@@ -34,18 +34,18 @@ func playlistRoute() -> httpReq {{ request in
             userX.channel = channelid
             
             // Ignition
-            if lastChannelId != channelid {
+            if resetChTknId != channelid {
                 Session(channelid: channelid, updateToken: true, updateUser: true)
-                lastChannelId = channelid
-                lastIgnition = currentTimeInMiliseconds()
+                resetChTknId = channelid
+                tokenExpires = currentTimeInMiliseconds()
             }
                           
             // Refresh token every 480 seconds
-            if (currentTimeInMiliseconds() - lastIgnition) >= 480000 {
+            if (currentTimeInMiliseconds() - tokenExpires) >= 480000 {
                 DispatchQueue.main.async {
                     Session(channelid: channelid, updateToken: true, updateUser: false)
                 }
-                lastIgnition = currentTimeInMiliseconds()
+                tokenExpires = currentTimeInMiliseconds()
             }
             
             let source = Playlist(channelid: channelid)

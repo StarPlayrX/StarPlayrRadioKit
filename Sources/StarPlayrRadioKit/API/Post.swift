@@ -12,9 +12,7 @@ internal func PostSync(request: Dictionary<String, Any>, endpoint: String, metho
     
     let dummy = (message: method + " failed in guard statement", success: false, data: ["": ""], response: nil ) as PostReturnTuple
     guard let url = URL(string: endpoint) else { PostTupleHandler(dummy); return }
-    
-    //Session(channelid: "siriushits1")
-    
+        
     let semaphore = DispatchSemaphore(value: 0)
     var urlReq = URLRequest(url: url)
     
